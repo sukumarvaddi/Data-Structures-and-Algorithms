@@ -1,3 +1,12 @@
+/* Types of Sorting available
+
+1. Selection Sort
+2. Insertion Sort
+3. Quick Sort
+4. Bubble Sort
+5. Merge Sort
+ */
+
 function insertionSort(listOfIntegers) {
     for (let i = 1; i < listOfIntegers.length; i++) {
         let k = i - 1;
