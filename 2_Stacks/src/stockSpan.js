@@ -25,7 +25,9 @@ function findStockSpanEfficient(stocks) {
     return stockSpan;
 }
 
-console.log(findStockSpanEfficient([8, 6, 2, 3, 3, 4, 7]));
+module.exports = findStockSpanEfficient;
+
+// console.log(findStockSpanEfficient([8, 6, 2, 3, 3, 4, 7]));
 
 function findStockSpanBruteForce(stocks) {
     let span = [];
@@ -48,4 +50,4 @@ function findStockSpanBruteForce(stocks) {
     return span;
 }
 
-console.log(findStockSpanBruteForce([8, 6, 2, 3, 3, 4, 7]));
+// console.log(findStockSpanBruteForce([8, 6, 2, 3, 3, 4, 7]));
