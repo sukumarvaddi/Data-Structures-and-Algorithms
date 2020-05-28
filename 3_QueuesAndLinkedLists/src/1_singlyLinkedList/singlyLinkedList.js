@@ -33,6 +33,9 @@ function linkedListImpl() {
     }
 
     function retrieveNode(value) {
+        if (!HEAD) {
+            return HEAD;
+        }
         let start = HEAD;
         let done = false;
         while (start && !done) {
@@ -61,6 +64,7 @@ function linkedListImpl() {
 
         if (!HEAD) {
             HEAD = node;
+            size++;
             return;
         }
         let start = HEAD;
@@ -74,43 +78,47 @@ function linkedListImpl() {
         if (HEAD) {
             if (HEAD.data === value) {
                 HEAD = HEAD.next;
+                size--;
                 return;
             }
-            let previous = HEAD;
             let current = HEAD.next;
-            while (current) {
-                if (current.value === value) {
-                    previous.next = current.next;
-                    current.next = null;
-                    return;
-                }
+            let previous = HEAD;
+            while (current && current.data !== value) {
                 previous = current;
                 current = current.next;
+            }
+            if (current && current.data === value) {
+                previous.next = current.next;
+                current.next = null;
+                size--;
             }
         }
     }
     function deleteNodeAtGivenPosition(position) {
-        if (position > size && position < 0) {
+        if (position >= size || position < 0) {
             return;
         }
         if (position === 0) {
             let temp = HEAD;
             HEAD = HEAD.next;
             temp.next = null;
+            size--;
+            return;
         }
         let start = HEAD;
         let previous = null;
-        pos = 0;
+        let pos = 0;
         while (pos < position) {
-            start = star.next;
+            start = start.next;
             previous = start;
-            post++;
+            pos++;
         }
         previous.next = start.next;
         status.next = null;
     }
     function deleteLinkedList() {
         HEAD = null;
+        size = 0;
     }
     function contains(val) {
         let start = HEAD;
@@ -133,7 +141,6 @@ function linkedListImpl() {
             data = data.concat(' ', start.data);
             start = start.next;
         }
-        console.log(data);
         return data.trim();
     }
     function getSize() {
@@ -141,4 +148,9 @@ function linkedListImpl() {
     }
 }
 
+const linkedList = linkedListImpl();
+
+linkedList.insertAtEnd(5);
+linkedList.insertAtEnd(6);
+linkedList.deleteNodeWithGivenValue(6);
 module.exports = linkedListImpl;
