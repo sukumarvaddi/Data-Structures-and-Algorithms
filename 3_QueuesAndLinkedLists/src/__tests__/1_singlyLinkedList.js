@@ -21,5 +21,6 @@ describe('Test Singly Linked List', () => {
         expect(linkedList.contains(6)).toBeTruthy();
         expect(linkedList.contains(7)).toBeFalsy();
         expect(linkedList.isEmpty()).toBeFalsy();
+        expect(linkedList.print()).toBe('6 5');
     });
 });

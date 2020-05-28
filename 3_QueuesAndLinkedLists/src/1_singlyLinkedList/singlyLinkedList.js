@@ -134,6 +134,7 @@ function linkedListImpl() {
             start = start.next;
         }
         console.log(data);
+        return data.trim();
     }
     function getSize() {
         return size;
