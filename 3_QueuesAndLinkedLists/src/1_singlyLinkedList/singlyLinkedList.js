@@ -118,6 +118,7 @@ function linkedListImpl() {
             if (start.data === val) {
                 return true;
             }
+            start = start.next;
         }
         return false;
     }
