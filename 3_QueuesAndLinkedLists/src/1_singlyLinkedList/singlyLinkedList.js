@@ -148,9 +148,4 @@ function linkedListImpl() {
     }
 }
 
-const linkedList = linkedListImpl();
-
-linkedList.insertAtEnd(5);
-linkedList.insertAtEnd(6);
-linkedList.deleteNodeWithGivenValue(6);
 module.exports = linkedListImpl;
