@@ -15,10 +15,11 @@ function linkedListImpl() {
         deleteNodeWithGivenValue /* Given a key, deletes the first occurrence of key in linked list */,
         deleteNodeAtGivenPosition, // Traversing takes O(n) and insertion is O(1)
         deleteLinkedList, //O(1) in javascript, java and C# (Garbage colellected languages)
-        getSize,
-        contains,
-        isEmpty,
-        print,
+        getSize, //O(1)
+        contains, // O(n)
+        isEmpty, // O(1)
+        print, // O(n)
+        getAtHead, //0(1)
     };
 
     function insertAtBeginning(value) {
@@ -96,25 +97,30 @@ function linkedListImpl() {
     }
     function deleteNodeAtGivenPosition(position) {
         if (position >= size || position < 0) {
-            return;
+            throw new Error('Invalid Position');
         }
-        if (position === 0) {
-            let temp = HEAD;
-            HEAD = HEAD.next;
-            temp.next = null;
+        if (size > 0) {
+            if (position === 0) {
+                let temp = HEAD;
+                HEAD = HEAD.next;
+                temp.next = null;
+                size--;
+                return temp;
+            }
+            let start = HEAD;
+            let previous = null;
+            let pos = 0;
+            while (pos < position) {
+                previous = start;
+                start = start.next;
+                pos++;
+            }
+            previous.next = start.next;
+            start.next = null;
             size--;
-            return;
+            return start;
         }
-        let start = HEAD;
-        let previous = null;
-        let pos = 0;
-        while (pos < position) {
-            start = start.next;
-            previous = start;
-            pos++;
-        }
-        previous.next = start.next;
-        status.next = null;
+        throw new Error('Invalid Position');
     }
     function deleteLinkedList() {
         HEAD = null;
@@ -145,6 +151,13 @@ function linkedListImpl() {
     }
     function getSize() {
         return size;
+    }
+    function getAtHead() {
+        if (HEAD != null) {
+            return HEAD.data;
+        }
+
+        throw new Error('Empty List');
     }
 }
 
