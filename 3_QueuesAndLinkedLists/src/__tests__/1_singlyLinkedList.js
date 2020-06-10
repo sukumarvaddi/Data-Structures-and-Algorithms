@@ -8,9 +8,10 @@ describe('Test Singly Linked List', () => {
         linkedList.insertAtBeginning(5);
         expect(linkedList.getSize()).toBe(1);
         expect(linkedList.contains(5)).toBeTruthy();
+        expect(linkedList.getSize()).toBe(1);
         expect(linkedList.isEmpty()).toBeFalsy();
     });
-    it('Insert at beginning of linked list', () => {
+    it('Insert at beginning of non Empty linked list', () => {
         const linkedList = singlyLinkedList();
         expect(linkedList.getSize()).toBe(0);
         expect(linkedList.contains(5)).toBeFalsy();
@@ -30,6 +31,7 @@ describe('Test Singly Linked List', () => {
         expect(linkedList.getSize()).toBe(0);
         expect(linkedList.contains(5)).toBeFalsy();
         expect(linkedList.contains(6)).toBeFalsy();
+        expect(linkedList.getSize()).toBe(0);
     });
     it('Insert after given value in linked list', () => {
         const linkedList = singlyLinkedList();
@@ -53,6 +55,8 @@ describe('Test Singly Linked List', () => {
         expect(linkedList.print()).toBe('5 7');
         expect(linkedList.getSize()).toBe(2);
         expect(linkedList.contains(7)).toBeTruthy();
+        expect(linkedList.contains(5)).toBeTruthy();
+        expect(linkedList.contains(8)).toBeFalsy();
         expect(linkedList.isEmpty()).toBeFalsy();
     });
 
@@ -77,21 +81,23 @@ describe('Test Singly Linked List', () => {
     it('Delete Node at the Given Position', () => {
         const linkedList = singlyLinkedList();
         expect(linkedList.getSize()).toBe(0);
-        linkedList.deleteNodeAtGivenPosition(0);
+        expect(() => linkedList.deleteNodeAtGivenPosition(0)).toThrowError(/^Invalid Position$/);
         expect(linkedList.getSize()).toBe(0);
         linkedList.insertAtEnd(5);
         linkedList.insertAtEnd(6);
-        linkedList.deleteNodeAtGivenPosition(0);
+        let s = linkedList.deleteNodeAtGivenPosition(1);
+        expect(s.data).toBe(6);
         expect(linkedList.getSize()).toBe(1);
-        expect(linkedList.print()).toBe('6');
+        expect(linkedList.print()).toBe('5');
         linkedList.insertAtBeginning(5);
         linkedList.insertAtEnd(6);
         linkedList.insertAtEnd(7);
         linkedList.insertAtEnd(8);
         linkedList.insertAtEnd(9);
+        linkedList.insertAtBeginning(2);
         linkedList.deleteNodeAtGivenPosition(4);
         expect(linkedList.getSize()).toBe(6);
-        expect(linkedList.print()).toBe('5 6 6 7 8 9');
+        expect(linkedList.print()).toBe('2 5 5 6 8 9');
     });
     it('Delete Linked List', () => {
         const linkedList = singlyLinkedList();
