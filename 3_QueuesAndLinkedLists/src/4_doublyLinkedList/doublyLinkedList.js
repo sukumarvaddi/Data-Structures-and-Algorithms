@@ -14,7 +14,7 @@ function doublyLinkedListImpl() {
         deleteNodeAtGivenPosition, // Traversing takes O(n) and insertion is O(1)
         deleteAtEnd,
         deleteLinkedList, //O(1) in javascript, java and C# (Garbage colellected languages)
-        getSize,
+        getSize, //O(1)
         contains,
         isEmpty,
         print,
