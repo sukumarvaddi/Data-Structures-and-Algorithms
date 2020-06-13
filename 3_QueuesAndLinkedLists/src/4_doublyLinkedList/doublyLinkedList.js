@@ -9,7 +9,7 @@ function doublyLinkedListImpl() {
     return {
         insertAtBeginning, //O(1)
         insertAfterGivenValue, // Traversing takes O(n) and insertion is O(1)
-        insertAtEnd, //O(n)
+        insertAtEnd, //O(1)
         deleteNodeWithGivenValue /* Given a key, deletes the first occurrence of key in linked list */,
         deleteNodeAtGivenPosition, // Traversing takes O(n) and insertion is O(1)
         deleteAtEnd,
@@ -26,49 +26,53 @@ function doublyLinkedListImpl() {
         if (!header) {
             header = {};
             trailer = {};
-            node.prev = header;
             header.next = node;
+            node.prev = header;
             node.next = trailer;
             trailer.prev = node;
             size++;
             return;
         }
         let temp = header.next;
-        node.next = header.next;
-        node.prev = header;
         header.next = node;
+        node.prev = header;
+        node.next = temp;
         temp.prev = node;
         size++;
     }
 
-    function insertAfterGivenValue(val) {
+    function insertAfterGivenValue(toBeInserted, val) {
         if (size === 0) {
             throw Error('Empty List');
         }
         let done = false;
         let start = head;
         while (start.next && !done) {
-            if (start.next.val === val) {
+            if (start.next.data === val) {
                 done = true;
             }
             start = start.next;
         }
         if (done) {
-            let node = getNode(val);
-            node.next = start.next;
-            node.next.prev = node;
-            start.next = node;
+            let node = getNode(toBeInserted);
+
             node.prev = start;
+            node.next = start.next;
+            start.next.prev = node;
+            start.next = node;
+            start++;
         }
-        start++;
+        throw new Error('Absence of value: ' + val);
     }
 
     function insertAtEnd(val) {
         let node = getNode(val);
         if (trailer) {
-            trailer.prev.next = node;
-            node.prev = trailer.prev;
-            trailer.prev = node;
+            let temp = trailer.prev;
+            temp.next = node;
+            node.prev = temp;
+            trailer = node;
+            size++;
             return;
         }
         header = {};
@@ -76,57 +80,54 @@ function doublyLinkedListImpl() {
 
         header.next = node;
         trailer.prev = node;
+        node.prev = header;
+        node.next = trailer;
         size++;
     }
 
     function deleteNodeWithGivenValue(val) {
         let start = header;
         let done = false;
-        while (start.next && !done) {
+        while (start && start.next && !done) {
             if (start.next.value === value) {
                 done = true;
             }
             start = start.next;
         }
         if (done) {
-            let prev = start.prev;
-            let next = start.next;
-            prev.next = next;
-            next.prev = prev;
-            start.prev = null;
-            start.next = null;
+            deleteNode(start);
+            size--;
         }
-        size--;
     }
 
     function deleteNodeAtGivenPosition(position) {
         if (position >= size || position < 0) {
             throw new Error('Invalid Position');
         }
-        if (position === 0) {
-            let temp = header.next.next;
-            temp.prev = header;
-            header.next = temp;
-            size--;
-            return temp;
+        if (position === 0 && size === 1) {
+            deleteLinkedList();
+            return;
         }
-        let tempPos = 0;
+        let done = false;
+        let pos = 0;
         let start = header.next;
-        while (tempPos < position) {
+        while (start.next && !done) {
             start = start.next;
-            tempPos++;
+            if (pos === position) {
+                done = true;
+            } else {
+                pos++;
+            }
         }
-        let next = start.next;
-        let prev = start.prev;
-        prev.next = next;
-        next.prev = prev;
-        start.prev = null;
-        start.next = null;
-        size--;
+        if (done) {
+            deleteNode(start);
+            size--;
+        }
     }
     function deleteLinkedList() {
         header = null;
         trailer = null;
+        size = 0;
     }
 
     function getSize() {
@@ -161,5 +162,15 @@ function doublyLinkedListImpl() {
 
     function getAtHead() {
         return header.next.data;
+    }
+
+    function deleteNode(node) {
+        let prev = node.prev;
+        let next = node.next;
+
+        prev.next = next;
+        next.prev = prev;
+        node.next = null;
+        node.prev = null;
     }
 }
